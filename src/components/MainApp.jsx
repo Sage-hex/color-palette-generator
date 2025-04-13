@@ -17,12 +17,23 @@ const MainApp = () => {
 
   const handleGenerate = (newColors) => {
     setColors(newColors);
-    setHistory((prev) => [...prev, Object.values(newColors).flat()]);
+
+    const newPaletteSignature = JSON.stringify(newColors);
+
+    const isDuplicate = history.some((entry) => JSON.stringify(entry) === newPaletteSignature);
+
+    if (!isDuplicate) {
+      setHistory((prev) => [...prev, newColors]);
+    }
   };
 
   const clearHistory = () => {
-    setHistory([]); // Clear the history state
-    localStorage.removeItem("history"); // Remove history from localStorage
+    setHistory([]);
+    localStorage.removeItem("history");
+  };
+
+  const handleRestore = (palette) => {
+    setColors(palette);
   };
 
   return (
@@ -35,43 +46,26 @@ const MainApp = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Color Picker Section */}
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-4">Pick a Base Color</h3>
           <ColorPicker onGenerate={handleGenerate} />
         </div>
 
-        {/* Generated Palette Section */}
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-4">Generated Palette</h3>
           <ColorPalette colors={colors} />
         </div>
       </div>
 
-      {/* Gradient Generator */}
       <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
         <h3 className="text-2xl font-semibold mb-4 font-inter">Gradient Generator</h3>
         <GradientGenerator />
       </div>
 
-      {/* History Panel */}
       <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <HistoryPanel
-          history={history}
-          onRestore={(palette) => {
-            const restoredColors = {
-              complementary: [palette[0], palette[1]],
-              analogous: [palette[0], palette[1], palette[2]],
-              triadic: [palette[0], palette[1], palette[2]],
-              monochromatic: [palette[0], palette[1], palette[2]],
-            };
-            setColors(restoredColors);
-          }}
-          onClear={clearHistory} // Pass the clearHistory function as a prop
-        />
+        <HistoryPanel history={history} onRestore={handleRestore} onClear={clearHistory} />
       </div>
 
-      {/* Export Button */}
       <div className="mt-8 flex justify-center">
         <ExportButton colors={colors} />
       </div>
