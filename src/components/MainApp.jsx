@@ -28,8 +28,8 @@ const MainApp = () => {
   return (
     <div className="container mx-auto p-4 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
       <div className="mb-8">
-        <h2 className="text-4xl font-bold text-center my-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-          🎨 Generate Your Palette
+        <h2 className="text-4xl font-bold text-center my-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 font-inter">
+          🎨 Generate Your Palette :)
         </h2>
         <ThemeToggle />
       </div>
@@ -50,7 +50,7 @@ const MainApp = () => {
 
       {/* Gradient Generator */}
       <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-4">Gradient Generator</h3>
+        <h3 className="text-2xl font-semibold mb-4 font-inter">Gradient Generator</h3>
         <GradientGenerator />
       </div>
 
